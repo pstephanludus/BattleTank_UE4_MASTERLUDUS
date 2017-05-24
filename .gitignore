@@ -66,3 +66,6 @@ DerivedDataCache/*
 
 #VC.db
 *.VC.db
+
+#Release
+Release/*
