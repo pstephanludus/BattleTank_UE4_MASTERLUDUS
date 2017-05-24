@@ -16,6 +16,13 @@ void ATankPlayerController::BeginPlay()
 	}
 }
 
+void ATankPlayerController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	AimTowardsCrosshair();
+
+}
+
 ATank* ATankPlayerController::GetControlledTank() const
 {
 	ATank *TankPlayer = Cast<ATank>(GetPawn());
@@ -23,9 +30,35 @@ ATank* ATankPlayerController::GetControlledTank() const
 	return TankPlayer;
 }
 
-void Tick(float DeltaTime)
+void ATankPlayerController::AimTowardsCrosshair()
 {
-	Super::Tick(DeltaTime);
-	UE_LOG(LogTemp, Warning, TEXT("The Hell It Works"));
+	if (!GetControlledTank()) { return; }
 
+	FVector HitLocation;
+	if (GetSightRayHitLocation(HitLocation)) {
+
+	}
+	
+
+}
+
+bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
+{
+	int32 ViewportSizeX, ViewportSizeY;
+	GetViewportSize(ViewportSizeX, ViewportSizeY);
+	auto ScreenLocation = FVector2D(ViewportSizeX * CrossHairXLocation, ViewportSizeY * CrossHairYLocation);
+	
+	FVector LookDirection;
+	if (GetLookDirection(ScreenLocation, LookDirection)) {
+
+	}
+
+	return true;
+
+
+}
+
+bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const{
+	FVector CameraWorldLocation;
+	return DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, CameraWorldLocation, LookDirection);
 }
